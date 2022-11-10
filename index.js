@@ -1,143 +1,92 @@
-// const { createStore } = require("redux");
-
-const { createStore } = require("redux");
-
-// /// defining constant
-// const INCREMENT = 'INCREMENT';
-// const DECREMENT = 'DECREMENT';
-// const ADD_USER = 'ADD_USER'
-
-
-// /// state defining
-// const initialCounterState = {
-//     count: 0,
-// }
-
-// const initialUserState = {
-//     users: [{name: 'Md Sohidul Islam'}]
-// }
-
-
-// // action type=== object => payload, type
-
-// const incrementCounter = () => {
-//     return {
-//         type: INCREMENT
-//     }
-// }
-
-// const decrementCounter = () => {
-//     return {
-//         type: DECREMENT
-//     }
-// }
-
-// // const addUser = (user) => {
-// //     return {
-// //         type: ADD_USER,
-// //         payload: user
-// //     }
-// // }
-
-
-// // reducer 
-
-// const counterReducer = (state=initialCounterState, action) => {
-//     switch (action.type) {
-//         case INCREMENT:
-//             return{
-//                 ...state,
-//                 count: state.count + 1
-//             }  
-//         case DECREMENT:
-//             return{
-//                 ...state,
-//                 count: state.count - 1
-//             }  
-//         default:
-//             state;
-//     }
-// }
-
-// const store = createStore(counterReducer);
-// store.subscribe(()=>{ 
-//     console.log(store.getState());
-// })
-// store.dispatch(incrementCounter());
-// store.dispatch(incrementCounter());
-// store.dispatch(incrementCounter());
-// store.dispatch(incrementCounter());
-// store.dispatch(incrementCounter());
-// store.dispatch(incrementCounter());
-
-
-// /// summery of redux
-// // state 
-// // dispatch action
-// // reducer
-// // store update
-
-// redux 4 thing remember
 // state
 // action
 // reducer
-// store
+// store 
 
-// constant defining
-const INCREMENT = 'INCREMENT';
-const DECREMENT = 'DECREMENT';
-const RESET = 'RESET';
+const { createStore, combineReducers } = require("redux");
 
-const initialCount = {
-    count: 0
+// defining product constant
+const GET_PRODUCTS = 'GET_PRODUCTS';
+const ADD_PRODUCT = 'ADD_PRODUCT';
+
+// defining cart constant
+const GET_CART = 'GET_CART';
+const ADD_CART = 'ADD_CART';
+
+const cartState = {
+    products: ['scale'],
+    productsOfQuantity: 1
 }
 
-const incrementCount = () => {
+const getCarts = () => {
     return {
-        type: INCREMENT,
+        type: GET_CART
     }
 }
 
-const decrementCount = () => {
-    return {
-        type: DECREMENT
+const addCart = (product) => {
+    return{
+        type: ADD_CART,
+        payload: product
     }
 }
 
-const resetCount = () => {
-    return {
-        type: RESET
-    }
-}
-
-const counterReducer = (state=initialCount, action) => {
+const cartReducer = (state=productState, action) => {
     switch(action.type){
-        case INCREMENT:
-            return {
-                ... state,
-                count: state.count+1
+        case GET_CART:
+            return state;
+        case ADD_CART:
+            return{
+                products:[...state.products, action.payload],
+                productsOfQuantity: state.productsOfQuantity + 1
             }
-        case DECREMENT:
-            return {
-                ... state,
-                count: state.count - 1
-            }  
-        case RESET:
-            return {
-                ... state,
-                count:  0
-            }  
+        default: 
+        return state
     }
-};
+}
 
-const store = createStore(counterReducer);
+const productState = {
+    products: ['book'],
+    productsOfQuantity: 1
+}
 
+const getProducts = () => {
+    return {
+        type: GET_PRODUCTS
+    }
+}
+
+const addProduct = (product) => {
+    return{
+        type: ADD_PRODUCT,
+        payload: product
+    }
+}
+
+const productReducer = (state=productState, action) => {
+    switch(action.type){
+        case GET_PRODUCTS:
+            return state;
+        case ADD_PRODUCT:
+            return{
+                products:[...state.products, action.payload],
+                productsOfQuantity: state.productsOfQuantity + 1
+            }
+        default: 
+        return state
+    }
+}
+
+const rootReducer = combineReducers({productReducer, cartReducer})
+const store = createStore(rootReducer)
 store.subscribe(()=>{
     console.log(store.getState());
 })
 
-store.dispatch(incrementCount())
-store.dispatch(incrementCount())
-store.dispatch(incrementCount())
-store.dispatch(decrementCount())
-store.dispatch(resetCount())
+
+
+store.dispatch(getProducts());
+store.dispatch(addProduct('pen'));
+store.dispatch(addCart('pen'));
+store.dispatch(addCart('pen'));
+store.dispatch(addCart('pen'));
