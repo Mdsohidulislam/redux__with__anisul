@@ -57,17 +57,17 @@ const counterReducer = (state=initialCounterState, action) => {
     }
 }
 
-// const store = createStore(counterReducer);
-// store.subscribe(()=>{ 
-//     console.log(store.getState());
-// })
-// store.dispatch(incrementCounter());
-// store.dispatch(incrementCounter());
-// store.dispatch(incrementCounter());
-// store.dispatch(incrementCounter());
-// store.dispatch(incrementCounter());
-// store.dispatch(incrementCounter());
-    
+const store = createStore(counterReducer);
+store.subscribe(()=>{ 
+    console.log(store.getState());
+})
+store.dispatch(incrementCounter());
+store.dispatch(incrementCounter());
+store.dispatch(incrementCounter());
+store.dispatch(incrementCounter());
+store.dispatch(incrementCounter());
+store.dispatch(incrementCounter());
+
 
 /// summery of redux
 // state 
